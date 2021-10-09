@@ -5,10 +5,48 @@ module.exports = app => {
    app.get('/userList', vmsController.userList);
 
 
-   //Geting VoliationType List
+   //Get VoliationType List
 
    app.get('/voliationTypeList',ensureToken, vmsController.voliationTypeList);
-   //app.post('/singleCreate', vmsController.singleCreate);
+
+
+   //Get Voliation Title
+   app.get('/voliationTitleList/:id',ensureToken, vmsController.voliationTitleList);
+
+   //Get Side Code
+   app.get('/sideCode/:id',ensureToken, vmsController.sideCode);
+   //Get Side Code Wise Data
+   app.get('/sideCodeWiseData/:id',ensureToken, vmsController.sideCodeWiseData);
+
+
+
+   //Get Plate Source
+   app.get('/plateSourceList',ensureToken, vmsController.plateSourceList);
+
+    //Get Plate Code
+    app.get('/plateCodeList',ensureToken, vmsController.plateCodeList);
+
+    //Get Old Code
+    app.get('/oldCode',ensureToken, vmsController.oldCode);
+
+    //Get Violation Category
+    app.get('/violationCategory/:id',ensureToken, vmsController.violationCategory);
+
+
+    //Get Fine Code
+    app.get('/fineCode/:id',ensureToken, vmsController.fineCode);
+
+    //Get Document type
+    app.get('/documentType',ensureToken, vmsController.documentType);
+
+
+    //Get Area
+    app.get('/getArea',ensureToken, vmsController.getArea);
+    
+    
+     //Get Area
+     app.get('/reservedCode',ensureToken, vmsController.reservedCode);
+     
 }
 
 

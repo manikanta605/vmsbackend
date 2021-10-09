@@ -72,5 +72,225 @@ module.exports = {
                 })
             }
         })
-    }
+    },
+    voliationTitleList: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.voliationTitleList(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    sideCode: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.sideCode(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    sideCodeWiseData: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.sideCodeWiseData(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    plateSourceList: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.plateSourceList(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    plateCodeList: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.plateCodeList(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    oldCode: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.oldCode(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    violationCategory: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.violationCategory(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    fineCode: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.fineCode(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    documentType: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.documentType(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    getArea: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.getArea(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    reservedCode: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.reservedCode(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
 }
