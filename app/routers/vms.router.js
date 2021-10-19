@@ -46,7 +46,12 @@ module.exports = app => {
     
      //Get Area
      app.get('/reservedCode',ensureToken, vmsController.reservedCode);
-     
+
+     //Get voilations
+     app.get('/voilations',ensureToken, vmsController.voilations);
+
+      //Get voilations
+      app.get('/plateSourceId/:id', vmsController.plateSourceId);
 }
 
 

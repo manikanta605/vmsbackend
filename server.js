@@ -38,6 +38,7 @@ app.use(express.static(__dirname + '/public'));                 // set the stati
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 
 require("./app/routers/vms.router")(app);
+require("./app/routers/vms.vioilationAdd.router")(app);
 
 // set port, listen for requests
 
@@ -73,7 +74,7 @@ res.sendStatus(403);
 }
 
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3002;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });

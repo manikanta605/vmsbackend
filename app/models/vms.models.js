@@ -110,7 +110,15 @@ module.exports = {
             })
         },
         reservedCode:(id,callback) =>{
-            db.query("SELECT area_id,area_code,name_eng,name_ar FROM  `tbl_areas`",[], (error, result)=>{
+            db.query("SELECT reserved_id,reserved_code,name_eng,name_arb FROM  `tbl_reserved`",[], (error, result)=>{
+                if(error){
+                    return callback(error);
+                }
+                return callback(null, result);
+            })
+        },
+        voilations:(id,callback) =>{
+            db.query("SELECT reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='93' order by id DESC;",[], (error, result)=>{
                 if(error){
                     return callback(error);
                 }
