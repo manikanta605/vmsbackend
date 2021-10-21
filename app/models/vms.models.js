@@ -85,8 +85,16 @@ module.exports = {
                 return callback(null, result);
             })
         },
-        fineCode:(id,callback) =>{
+        fineCategoryCode:(id,callback) =>{
             db.query("SELECT fine_amount,per_day,fine_code_id,fine_code_reffer_no,description,description_eng FROM  `tbl_fine_category_codes` where fine_category_id=?",[id], (error, result)=>{
+                if(error){
+                    return callback(error);
+                }
+                return callback(null, result);
+            })
+        },
+        getFineamount:(id,callback) =>{
+            db.query("SELECT fine_amount,per_day,fine_code_id,fine_code_reffer_no,description,description_eng FROM  `tbl_fine_category_codes` where fine_code_id=?",[id], (error, result)=>{
                 if(error){
                     return callback(error);
                 }
@@ -118,13 +126,22 @@ module.exports = {
             })
         },
         voilations:(id,callback) =>{
-            db.query("SELECT reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='93' order by id DESC;",[], (error, result)=>{
+            // console.log("SELECT reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='90' order by id DESC;")
+            db.query("SELECT document_no,license_no,reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='93' order by id DESC;",[], (error, result)=>{
                 if(error){
                     return callback(error);
                 }
                 return callback(null, result);
             })
         },
+        // getViolationListIdWise:(id, callback) =>{
+        //     db.query("SELECT reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='?'",[id], (error, result)=>{
+        //         if(error){
+        //             return callback(error);
+        //         }
+        //         return callback(null, result);
+        //     })
+        // }
         
         
 }

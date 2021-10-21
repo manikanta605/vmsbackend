@@ -218,7 +218,27 @@ module.exports = {
             if (err) {
                 res.sendStatus(403);
             } else {
-                vmsModels.fineCode(req.params.id,(err, result) => {
+                vmsModels.fineCategoryCode(req.params.id,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+            }
+        })
+    },
+    getFineamount: (req, res) => {
+        jwt.verify(req.token, 'my_secret_key', (err, result) => {
+            if (err) {
+                res.sendStatus(403);
+            } else {
+                vmsModels.getFineamount(req.params.id,(err, result) => {
                     if (err) {
                         return res.status(500).send({
                             statusCode: 500,

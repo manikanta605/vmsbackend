@@ -36,6 +36,9 @@ module.exports = app => {
     //Get Fine Code
     app.get('/fineCode/:id',ensureToken, vmsController.fineCode);
 
+    //Get Fine Code Wise Fine Amount
+    app.get('/getFineamount/:id',ensureToken, vmsController.getFineamount);
+
     //Get Document type
     app.get('/documentType',ensureToken, vmsController.documentType);
 

@@ -13,7 +13,8 @@ exports.addValidation = async (req, res) => {
             message: "Content can not be empty!"
         });
     }
-   
+   //console.log(req.body);
+  
 
     await this.getLastReferenceNo().then((result)=>{
         //console.log("getLastReferenceNo", result);
@@ -33,7 +34,7 @@ exports.addValidation = async (req, res) => {
     }else{
         violationTitleInsertId = req.body.voilationtitleid
     }
-   
+    
     if(req.body.sideCodeID == null){
         await this.insertsidecodes(sidecodeData).then((insertResult) =>{
             //console.log("insertResult", insertResult);

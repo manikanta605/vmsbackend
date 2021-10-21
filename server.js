@@ -39,6 +39,7 @@ app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse applica
 
 require("./app/routers/vms.router")(app);
 require("./app/routers/vms.vioilationAdd.router")(app);
+require("./app/routers/vms.violationView.router")(app);
 
 // set port, listen for requests
 
