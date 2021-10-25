@@ -127,7 +127,7 @@ module.exports = {
         },
         voilations:(id,callback) =>{
             // console.log("SELECT reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='90' order by id DESC;")
-            db.query("SELECT document_no,license_no,reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='93' order by id DESC;",[], (error, result)=>{
+            db.query("SELECT id,document_no,license_no,reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='93' order by id DESC;",[], (error, result)=>{
                 if(error){
                     return callback(error);
                 }
