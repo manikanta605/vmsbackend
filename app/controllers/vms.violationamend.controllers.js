@@ -38,6 +38,26 @@ exports.violationamendData = async (body) =>{
 }
 
 
+exports.violationamendlist = async (req, res) =>{
+    return new Promise((resolve, reject) =>{
+        vmsAmend.tbl_violations_amend_requests_list(req.params.id, (err, result)=>{
+            if (err) {
+               // throw err;
+                return res.status(500).send({
+                    statusCode: 500,
+                    data: "Database Connection Error",
+                })
+            }
+            return res.status(200).send({
+                statusCode: 200,
+                data: result
+            })
+        })
+    })
+}
+
+
+
 
 
 

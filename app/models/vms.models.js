@@ -125,9 +125,18 @@ module.exports = {
                 return callback(null, result);
             })
         },
+        
         voilations:(id,callback) =>{
-            // console.log("SELECT reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='90' order by id DESC;")
-            db.query("SELECT id,document_no,license_no,reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='93' order by id DESC;",[], (error, result)=>{
+            var datetime = new Date();
+            var dateItem = datetime.toISOString().slice(0,19)
+            //console.log(dateItem);
+
+            //"SELECT fine_category,id,document_no,license_no,reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='"+id+"' and TIMESTAMPDIFF(HOUR,created_on, '"+dateItem+"') <= 12  order by id DESC"
+
+
+            // console.log("SELECT fine.description_eng,fine.description,v.fine_category,v.id,v.document_no,v.license_no,v.reference_number,v.license_plate_no,v.fine_amount,v.created_on,v.fine_place,v.payment_status,v.side_type FROM `tbl_voilations` v INNER JOIN tbl_fine_categories fine ON v.fine_category = fine.fine_category_id where v.created_by='"+id+"' order by id DESC");
+             //return;
+            db.query("SELECT fine.description_eng,fine.description,v.fine_category,v.id,v.document_no,v.license_no,v.reference_number,v.license_plate_no,v.fine_amount,v.created_on,v.fine_place,v.payment_status,v.side_type FROM `tbl_voilations` v INNER JOIN tbl_fine_categories fine ON v.fine_category = fine.fine_category_id where v.created_by='"+id+"'  order by id DESC",[], (error, result)=>{
                 if(error){
                     return callback(error);
                 }

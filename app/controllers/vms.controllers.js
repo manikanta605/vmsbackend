@@ -314,6 +314,7 @@ module.exports = {
         })
     },
     voilations: (req, res) => {
+        //console.log(req.params.id);
         jwt.verify(req.token, 'my_secret_key', (err, result) => {
             if (err) {
                 res.sendStatus(403);

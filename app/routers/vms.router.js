@@ -51,7 +51,7 @@ module.exports = app => {
      app.get('/reservedCode',ensureToken, vmsController.reservedCode);
 
      //Get voilations
-     app.get('/voilations',ensureToken, vmsController.voilations);
+     app.get('/voilations/:id',ensureToken, vmsController.voilations);
 
       //Get voilations
       app.get('/plateSourceId/:id', vmsController.plateSourceId);
