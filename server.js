@@ -4,6 +4,7 @@ const bodyParser = require("body-parser");
 const cors = require('cors');
 
 const jwt = require("jsonwebtoken");
+var methodOverride = require('method-override');
 var multer  =   require('multer');
 var fs = require("fs");
 const app = express();
@@ -35,7 +36,6 @@ app.use(function (req, res, next) { //allow cross origin requests
 // configuration
 app.use(express.static(__dirname + '/public'));                 // set the static files location /public/img will be /img for users
 
-
 app.use(bodyParser.json({ type: 'application/vnd.api+json' })); // parse application/vnd.api+json as json
 
 require("./app/routers/vms.router")(app);
@@ -52,8 +52,6 @@ app.use(express.static('resources'));
 
 function ensureToken(req, res, next) {
   const bearerHeader = req.headers["authorization"];
-
-
   if (bearerHeader == null) return
   next({ status: 401, message: 'authorization missing' })
   jwt.verify(authHeader, Constant.ACCESS_TOKEN_SECRET, (err, user) => {
@@ -61,16 +59,6 @@ function ensureToken(req, res, next) {
     req.user = user;
     next()
   })
-
-
-
-
-
-
-
-
-
-
 
   if (typeof bearerHeader !== 'undefined') {
 
@@ -87,7 +75,7 @@ function ensureToken(req, res, next) {
 // file upload code
 var storage = multer.diskStorage({ //multers disk storage settings
   destination: function (req, file, cb) {
-      cb(null, './uploads/')
+      cb(null, process.env.UPLOADPATH)
   },
   filename: function (req, file, cb) {
       // console.log(file);
@@ -151,6 +139,49 @@ app.post('/uploadfile', upload.single('uploadedImage'), (req, res, next) => {
 });
 
 
+// app.post('/uploadBulkImage', upload.array('image',4), (req, res,next) => {
+//   const file = req.file;
+//   console.log(req.file);
+//   if (!file) {
+//       const error = new Error('Please upload a file')
+//       error.httpStatusCode = 400
+//       return next(error)
+//   }
+//   res.status(200).send({
+//       statusCode: 200,
+//       status: 'success',
+//       uploadedFile: file
+//   })
+
+// }, (error, req, res, next) => {
+//   console.log(error);
+//   res.status(400).send({
+//       error: error.message
+//   })
+// });
+
+app.post('/uploadBulkImage', upload.array('files',4), (req, res, next) => {
+  const file = req.files
+  console.log(req.files);
+  if (!file) {
+      const error = new Error('Please upload a file')
+      error.httpStatusCode = 400
+      return next(error)
+  }
+  res.status(200).send({
+      statusCode: 200,
+      status: 'success',
+      uploadedFile: file
+  })
+
+}, (error, req, res, next) => {
+  console.log(error);
+  res.status(400).send({
+      error: error.message
+  })
+});
+
+
 // require('dotenv').config();
 // const express = require("express");
 // const bodyParser = require("body-parser");
@@ -161,9 +192,9 @@ app.post('/uploadfile', upload.single('uploadedImage'), (req, res, next) => {
 
 
 /** API for single file upload */
-app.post('/api/uploadPhoto', function(req, res) {
-  console.log('upload',req.file);
-    uploadSingle(req.file,res,function(err){
+app.post('/uploadPhotos', function(req, res) {
+  console.log('upload',req.files);
+  uploadMultiple(req.file,res,function(err){
         if(err){
              res.json({error_code:1,err_desc:err});
              return;

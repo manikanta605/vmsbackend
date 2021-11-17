@@ -13,12 +13,19 @@ exports.addValidation = async (req, res) => {
             message: "Content can not be empty!"
         });
     }
-   //console.log(req.body);
-  
+   console.log(req.body);
+//   if(req.body.voilationType === 1){
 
-    await this.getLastReferenceNo().then((result)=>{
+//   }else if(req.body.voilationType === 2){
+
+//   }else{
+
+//   }
+
+    await this.getLastReferenceNo(req.body.voilationType).then((result)=>{
         //console.log("getLastReferenceNo", result);
-        getLastReferenceNumber = result[0].id;
+        getLastReferenceNumber = result[0].reference_number;
+        //console.log("getLastReferenceNumber", getLastReferenceNumber);
     })
 
 
@@ -46,9 +53,36 @@ exports.addValidation = async (req, res) => {
     // console.log("InsertsidecodeData", InsertsidecodeData);
     // console.log("violationTitleInsertId", violationTitleInsertId);
     // console.log("getLastReferenceNo", getLastReferenceNumber);
-    var ref = getLastReferenceNumber+1
-    var referenceNumber = 'VMS0000'+ref;
-    //console.log("referenceNumber", referenceNumber);
+    var ref = getLastReferenceNumber+1;
+    // const str1 = '5';
+    // console.log(str1.padEnd(12, '0'));
+
+
+    if(req.body.voilationType === 1){
+
+        var split= getLastReferenceNumber.split("IVRAQ");
+        var ref = parseInt(split[1])+1
+        console.log(parseInt(split[1])+1);
+         var Refer = 'IVRAQ';
+         var referenceNumber =Refer.padEnd(10, '0')+ref;
+        //var referenceNumber = 'IVRAQ0000'+ref;
+    }else if(req.body.voilationType === 2){
+        var split= getLastReferenceNumber.split("CVRAQ");
+        var ref = parseInt(split[1])+1
+        //console.log(parseInt(split[1])+1);
+        var Refer = 'CVRAQ';
+        var referenceNumber = Refer.padEnd(10, '0')+ref;
+        //var referenceNumber = 'CVRAQ0000'+ref;
+    }else{
+        var split= getLastReferenceNumber.split("VVRAQ");
+        var ref = parseInt(split[1])+1
+        //console.log(parseInt(split[1])+1);
+        var Refer = 'VVRAQ';
+        var referenceNumber = Refer.padEnd(10, '0')+ref;
+        //var referenceNumber = 'VVRAQ0000'+ref;
+    }
+    //var referenceNumber
+    console.log("referenceNumber", referenceNumber);
     vmsModels.tbl_voilations(req.body, InsertsidecodeData, violationTitleInsertId,referenceNumber, (err, result)=>{
         if (err) {
             throw err;
@@ -165,10 +199,11 @@ exports.insertViolationTitle = async(body) =>{
         
     })
 }
-exports.getLastReferenceNo = async() =>{
+exports.getLastReferenceNo = async(voilationType) =>{
+    console.log(voilationType);
     return new Promise((resolve, reject) => {
          
-            vmsModels.tbl_violation_reference((err, result)=>{
+            vmsModels.tbl_violation_reference(voilationType,(err, result)=>{
                 if (err) {
                     return result.status(500).send({
                         statusCode: 500,

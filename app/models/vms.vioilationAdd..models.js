@@ -62,8 +62,10 @@ exports.tbl_voilations = async (data,InsertsidecodeData,violationTitleInsertId,r
 }
 
 
-exports.tbl_violation_reference = async(callback) =>{
-      db.query("select id from `tbl_voilations` order by id DESC limit 1", [], (error, result) => {
+exports.tbl_violation_reference = async(voilationType,callback) =>{
+  
+   
+      db.query("select id,reference_number from `tbl_voilations` where side_type='"+voilationType+"' order by id DESC limit 1", [], (error, result) => {
                if (error) {
                    return callback(error);
                }
