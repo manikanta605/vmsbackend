@@ -56,6 +56,24 @@ exports.violationamendlist = async (req, res) =>{
     })
 }
 
+exports.amendReqestList = async (req, res) =>{
+    return new Promise((resolve, reject) =>{
+        vmsAmend.amendReqestList(req.params.id, (err, result)=>{
+            if (err) {
+               // throw err;
+                return res.status(500).send({
+                    statusCode: 500,
+                    data: "Database Connection Error",
+                })
+            }
+            return res.status(200).send({
+                statusCode: 200,
+                data: result
+            })
+        })
+    })
+}
+
 
 
 

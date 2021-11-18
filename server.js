@@ -42,6 +42,7 @@ require("./app/routers/vms.router")(app);
 require("./app/routers/vms.vioilationAdd.router")(app);
 require("./app/routers/vms.violationView.router")(app);
 require("./app/routers/vms.violationamend.router")(app);
+require("./app/routers/vms.editviolation.router")(app);
 
 // set port, listen for requests
 
