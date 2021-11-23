@@ -86,6 +86,32 @@ var storage = multer.diskStorage({ //multers disk storage settings
   }
 });
 
+// file upload code
+var storage1 = multer.diskStorage({ //multers disk storage settings
+  destination: function (req, file, cb) {
+      cb(null, process.env.VIOLATIONDOCUMENTS)
+  },
+  filename: function (req, file, cb) {
+      // console.log(file);
+      var datetimestamp = Date.now();
+      //cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+      cb(null, file.originalname)
+  }
+});
+
+// file upload code
+var storage2 = multer.diskStorage({ //multers disk storage settings
+  destination: function (req, file, cb) {
+      cb(null, process.env.Violationvideos)
+  },
+  filename: function (req, file, cb) {
+      // console.log(file);
+      var datetimestamp = Date.now();
+      //cb(null, file.fieldname + '-' + datetimestamp + '.' + file.originalname.split('.')[file.originalname.split('.').length -1])
+      cb(null, file.originalname)
+  }
+});
+
 var uploadMultiple = multer({ //multer settings
       storage: storage
   }).array('file',20);
@@ -93,6 +119,8 @@ var uploadMultiple = multer({ //multer settings
 var uploadSingle = multer({ //multer settings
       storage: storage
   }).single('file');
+
+  
 
 //app.get('*', function(req, res) {
 //  res.sendfile('./public/index.html'); // load our public/index.html file
@@ -118,7 +146,67 @@ var upload = multer({
     cb(null, )
   }
   })
+  var Mulltiupload = multer({
+    storage: storage1,
+    limits: {
+        // Setting Image Size Limit to 2MBs
+        fileSize: 2000000
+    },
+    fileFilter(req, file, cb) {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+            //Error 
+            cb(new Error('Please upload JPG and PNG images only!'))
+        }
+        //Success 
+        cb(undefined, true)
+    },
+    filename: function (req, file, cb) {
+      // console.log(file);
+      var datetimestamp = Date.now();
+      cb(null, )
+    }
+    })
+
+  var videoUpload = multer({
+    storage: storage2,
+    limits: {
+        // Setting Image Size Limit to 2MBs
+        fileSize: 100000000000
+    },
+    fileFilter(req, file, cb) {
+       
+        //Success 
+        cb(undefined, true)
+    },
+    filename: function (req, file, cb) {
+      // console.log(file);
+      var datetimestamp = Date.now();
+      cb(null, )
+    }
+    })
 app.post('/uploadfile', upload.single('uploadedImage'), (req, res, next) => {
+  const file = req.file
+  //console.log(req);
+  if (!file) {
+      const error = new Error('Please upload a file')
+      error.httpStatusCode = 400
+      return next(error)
+  }
+  res.status(200).send({
+      statusCode: 200,
+      status: 'success',
+      uploadedFile: file
+  })
+
+}, (error, req, res, next) => {
+  console.log(error);
+  res.status(400).send({
+      error: error.message
+  })
+});
+
+
+app.post('/uploadvideo', videoUpload.single('uploadvideo'), (req, res, next) => {
   const file = req.file
   console.log(req);
   if (!file) {
@@ -161,7 +249,7 @@ app.post('/uploadfile', upload.single('uploadedImage'), (req, res, next) => {
 //   })
 // });
 
-app.post('/uploadBulkImage', upload.array('files',4), (req, res, next) => {
+app.post('/uploadBulkImage', Mulltiupload.array('files',4), (req, res, next) => {
   const file = req.files
   console.log(req.files);
   if (!file) {
@@ -247,6 +335,21 @@ app.get('/api/protected', ensureToken, (req, res) => {
 // app.listen(PORT, () => {
 //   console.log(`Server is running on port ${PORT}.`);
 // });
+
+
+
+//Delete Camera Upload images
+
+app.delete('/deleteImage/:id', async (req, res) => {
+  try {
+      fs.unlinkSync(process.env.VIOLATIONDOCUMENTS+req.params.id);
+
+      res.status(201).send({ message: "Image deleted" });
+
+  } catch (e) {
+      res.status(400).send({ message: "Error deleting image!", error: e.toString(), req: req.body });
+  }
+});
 
 
 const PORT = process.env.PORT || 3002;

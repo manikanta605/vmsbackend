@@ -4,6 +4,8 @@ const jwt = require('jsonwebtoken');
 const express = require("express");
 const app = express();
 exports.addValidation = async (req, res) => {
+
+ 
     var sidecodeData;
     var InsertsidecodeData;
     var violationTitleInsertId;
@@ -13,29 +15,18 @@ exports.addValidation = async (req, res) => {
             message: "Content can not be empty!"
         });
     }
-   console.log(req.body);
-//   if(req.body.voilationType === 1){
-
-//   }else if(req.body.voilationType === 2){
-
-//   }else{
-
-//   }
 
     await this.getLastReferenceNo(req.body.voilationType).then((result)=>{
-        //console.log("getLastReferenceNo", result);
+      
         getLastReferenceNumber = result[0].reference_number;
-        //console.log("getLastReferenceNumber", getLastReferenceNumber);
     })
 
 
     if(req.body.voilationtitleid == null){
         await this.getsidecodes(req.body).then((result) => {
-            //console.log("Side_codes", result);
             sidecodeData = result;
         })
         await this.insertViolationTitle(req.body).then((result) =>{
-            //console.log("Violation Title", result);
             violationTitleInsertId = result.insertId;
         })
     }else{
@@ -44,46 +35,40 @@ exports.addValidation = async (req, res) => {
     
     if(req.body.sideCodeID == null){
         await this.insertsidecodes(sidecodeData).then((insertResult) =>{
-            //console.log("insertResult", insertResult);
             InsertsidecodeData = insertResult.insertId;
         })
     }else{
         InsertsidecodeData = req.body.sideCodeID;
-    }
-    // console.log("InsertsidecodeData", InsertsidecodeData);
-    // console.log("violationTitleInsertId", violationTitleInsertId);
-    // console.log("getLastReferenceNo", getLastReferenceNumber);
+    };
     var ref = getLastReferenceNumber+1;
-    // const str1 = '5';
-    // console.log(str1.padEnd(12, '0'));
 
 
     if(req.body.voilationType === 1){
 
         var split= getLastReferenceNumber.split("IVRAQ");
         var ref = parseInt(split[1])+1
-        console.log(parseInt(split[1])+1);
          var Refer = 'IVRAQ';
          var referenceNumber =Refer.padEnd(10, '0')+ref;
         //var referenceNumber = 'IVRAQ0000'+ref;
     }else if(req.body.voilationType === 2){
         var split= getLastReferenceNumber.split("CVRAQ");
         var ref = parseInt(split[1])+1
-        //console.log(parseInt(split[1])+1);
         var Refer = 'CVRAQ';
         var referenceNumber = Refer.padEnd(10, '0')+ref;
-        //var referenceNumber = 'CVRAQ0000'+ref;
     }else{
         var split= getLastReferenceNumber.split("VVRAQ");
         var ref = parseInt(split[1])+1
-        //console.log(parseInt(split[1])+1);
         var Refer = 'VVRAQ';
         var referenceNumber = Refer.padEnd(10, '0')+ref;
-        //var referenceNumber = 'VVRAQ0000'+ref;
     }
+    var date = new Date();
+    var year =date.getFullYear();
+    //console.log(year.toString());
+    var fineNo = year.toString().padEnd(12, '0')+ref;
+    //console.log(fineNo);
+    
     //var referenceNumber
-    console.log("referenceNumber", referenceNumber);
-    vmsModels.tbl_voilations(req.body, InsertsidecodeData, violationTitleInsertId,referenceNumber, (err, result)=>{
+    vmsModels.tbl_voilations(req.body, InsertsidecodeData, violationTitleInsertId,referenceNumber,fineNo, (err, result)=>{
         if (err) {
             throw err;
             // return result.status(500).send({
@@ -162,7 +147,6 @@ exports.getsidecodes = async (body) => {
 
 exports.insertsidecodes = async (body) => {
     return new Promise((resolve, reject) => {
-        //console.log("body", body);
         vmsModels.tbl_side_code(body, (err, result)=>{
             if (err) {
                 return result.status(500).send({
@@ -178,7 +162,6 @@ exports.insertsidecodes = async (body) => {
 
 exports.insertViolationTitle = async(body) =>{
     return new Promise((resolve, reject) => {
-        //console.log("voilation title", body);
         if(body.voilationtitleid == null){
              var data = {
                 side_type_code:body.side_type_code,
@@ -200,7 +183,6 @@ exports.insertViolationTitle = async(body) =>{
     })
 }
 exports.getLastReferenceNo = async(voilationType) =>{
-    console.log(voilationType);
     return new Promise((resolve, reject) => {
          
             vmsModels.tbl_violation_reference(voilationType,(err, result)=>{

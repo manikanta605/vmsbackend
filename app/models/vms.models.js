@@ -2,7 +2,6 @@ const db = require('../config/db');
 
 module.exports = {
     login:(data, callback) =>{
-        //console.log("SELECT * FROM `tbl_user` WHERE email_id='"+data.email+"' and password='"+data.password+"' and user_type='12'");
         db.query("SELECT * FROM `tbl_user` WHERE email_id='"+data.email+"' and password='"+data.password+"' and user_type='12'", [], (error, result)=>{
             if(error){
                 return callback(error);
@@ -38,7 +37,7 @@ module.exports = {
         },
         sideCode:(id,callback) =>{
             
-            db.query("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where side_type_code=? limit 10",[id], (error, result)=>{
+            db.query("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where side_type_code=? limit 20",[id], (error, result)=>{
                 if(error){
                     return callback(error);
                 }
@@ -129,13 +128,6 @@ module.exports = {
         voilations:(id,callback) =>{
             var datetime = new Date();
             var dateItem = datetime.toISOString().slice(0,19)
-            //console.log(dateItem);
-
-            //"SELECT fine_category,id,document_no,license_no,reference_number,license_plate_no,fine_amount,created_on,fine_place,payment_status,side_type FROM  `tbl_voilations` where created_by='"+id+"' and TIMESTAMPDIFF(HOUR,created_on, '"+dateItem+"') <= 12  order by id DESC"
-
-
-            //console.log("SELECT vmr.status,v.id,fine.description_eng,fine.description,v.fine_category,v.id,v.document_no,v.license_no,v.reference_number,v.license_plate_no,v.fine_amount,v.created_on,v.fine_place,v.payment_status,v.side_type FROM `tbl_voilations` v INNER JOIN tbl_fine_categories fine ON v.fine_category = fine.fine_category_id LEFT JOIN tbl_violations_amend_requests vmr ON v.id = vmr.violation_id where v.created_by='"+id+"' and TIMESTAMPDIFF(HOUR,v.created_on, '"+dateItem+"') <= 12  order by id DESC");
-             //return;
             db.query("SELECT vmr.status,v.id,fine.description_eng,fine.description,v.fine_category,v.id,v.document_no,v.license_no,v.reference_number,v.license_plate_no,v.fine_amount,v.created_on,v.fine_place,v.payment_status,v.side_type FROM `tbl_voilations` v INNER JOIN tbl_fine_categories fine ON v.fine_category = fine.fine_category_id LEFT JOIN tbl_violations_amend_requests vmr ON v.id = vmr.violation_id where v.created_by='"+id+"' and v.status = 'Draft'  order by id DESC",[], (error, result)=>{
                 if(error){
                     return callback(error);

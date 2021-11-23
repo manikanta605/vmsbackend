@@ -5,7 +5,6 @@ const express = require("express");
 const app = express();
 
 exports.amendViolation = async (req, res) =>{
-    // console.log(req.body)
 
     if (!req.body) {
         res.status(400).send({

@@ -9,8 +9,6 @@ exports.addValidation = (req, res) => {
           message: "Content can not be empty!"
         });
       }
-
-      console.log(req.body);
       return;
 }
 // module.exports = {

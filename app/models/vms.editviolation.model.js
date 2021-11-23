@@ -9,8 +9,6 @@ exports.tbl_voilations = async(id,callback) =>{
          })
 }
 exports.tbl_voilations_update = async(id,data,callback) =>{   
-    console.log("UPDATE `tbl_voilations` SET `notes`='"+data.notes+"' WHERE `id`='"+id+"'");
-   
     db.query("UPDATE `tbl_voilations` SET `notes`='"+data.notes+"' WHERE `id`='"+id+"'", [], (error, result) => {
              if (error) {
                  return callback(error);
