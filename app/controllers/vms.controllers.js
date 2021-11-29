@@ -350,4 +350,22 @@ module.exports = {
                 })
           
     },
+
+    searchSideCode: (req, res) => {
+       var body = req.body;
+      console.log("req.body",body);
+        vmsModelsAdd.sideCodeSearch(req.params.id,body.search,(err, result) => {
+                    if (err) {
+                        return res.status(500).send({
+                            statusCode: 500,
+                            data: "Database Connection Error",
+                        })
+                    }
+                    return res.status(200).send({
+                        statusCode: 200,
+                        data: result
+                    })
+                })
+          
+    },
 }

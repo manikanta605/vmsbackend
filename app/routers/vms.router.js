@@ -55,6 +55,9 @@ module.exports = app => {
 
       //Get voilations
       app.get('/plateSourceId/:id', vmsController.plateSourceId);
+
+      //Get voilations
+      app.post('/searchSideCode/:id', vmsController.searchSideCode);
 }
 
 

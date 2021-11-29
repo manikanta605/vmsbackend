@@ -61,3 +61,16 @@ exports.tbl_violation_reference = async(voilationType,callback) =>{
                return callback(null, result);
            })
 }
+exports.sideCodeSearch = async(id,body,callback) =>{
+ 
+
+//    console.log("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where side_type_code='"+id+"' and description  LIKE '%"+body+"%' limit 20");
+//    return;
+    db.query("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where side_type_code='"+id+"' and description  LIKE '%"+body+"%' limit 20", [], (error, result) => {
+             if (error) {
+                 return callback(error);
+             }
+             return callback(null, result);
+         })
+}
+

@@ -343,9 +343,7 @@ app.get('/api/protected', ensureToken, (req, res) => {
 app.delete('/deleteImage/:id', async (req, res) => {
   try {
       fs.unlinkSync(process.env.VIOLATIONDOCUMENTS+req.params.id);
-
       res.status(201).send({ message: "Image deleted" });
-
   } catch (e) {
       res.status(400).send({ message: "Error deleting image!", error: e.toString(), req: req.body });
   }

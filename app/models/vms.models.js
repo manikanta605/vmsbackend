@@ -44,6 +44,7 @@ module.exports = {
                 return callback(null, result);
             })
         },
+      
         sideCodeWiseData:(id,callback) =>{
             db.query("SELECT side_code_id,side_code_no,description,description_eng FROM `tbl_side_codes` where side_code_id=?",[id], (error, result)=>{
                 if(error){
@@ -52,6 +53,7 @@ module.exports = {
                 return callback(null, result);
             })
         },
+        
         plateSourceList:(id,callback) =>{
             db.query("SELECT car_sid,raqab_code,adp_code,name_eng,name_ar FROM `tbl_plate_sources`",[], (error, result)=>{
                 if(error){
