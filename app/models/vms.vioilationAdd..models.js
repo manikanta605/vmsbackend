@@ -21,18 +21,21 @@ exports.tbl_source_code = async (data, callback) => {
 
 exports.tbl_side_code = async (data, callback) =>{
     if(data.voilationType == '1'){
-
-        var sqlDb = "INSERT INTO `tbl_side_codes`(`side_type_code`,`description`, `description_eng`, `document_type`, `document_no`) VALUES ('" + data.voilationType + "','" + data.description + "','" + data.description_eng + "','" + data.document_type + "','" + data.document_no + "')";
+        var sidecodeDescription = data.documentNo +'-'+data.sideCodeDescription;
+        var sqlDb = "INSERT INTO `tbl_side_codes`(`side_code_no`,`side_type_code`,`description`, `description_eng`, `document_type`, `document_no`,`source`,`created_by`) VALUES ('" + data.sideCodeID + "','" + data.voilationType + "','" + sidecodeDescription + "','" + sidecodeDescription + "','" + data.documentType + "','" + data.documentNo + "','0','0','" + data.created_by + "')";
 
     }else if(data.voilationType == '2'){
-        var sqlDb = "INSERT INTO `tbl_side_codes`(`side_type_code`,`description`, `description_eng`, `license_no`) VALUES ('" + data.voilationType + "','" + data.description + "','" + data.description_eng + "','" + data.license_no + "')";
+        var sidecodeDescription = data.licenseNo +'-'+data.sideCodeDescription;
+        var sqlDb = "INSERT INTO `tbl_side_codes`(`side_code_no`,`side_type_code`,`description`, `description_eng`, `license_no`,`source`,`created_by`) VALUES ('" + data.sideCodeID + "','" + data.voilationType + "','" + sidecodeDescription + "','" + sidecodeDescription + "','" + data.licenseNo + "','0','" + data.created_by + "')";
 
     }else{
-        var sqlDb = "INSERT INTO `tbl_side_codes`(`side_type_code`,`description`, `description_eng`, `car_no`, `calar_pad`, `class_pad_new`) VALUES ('" + data.voilationType + "','" + data.description + "','" + data.description_eng + "','" + data.car_no + "','" + data.calar_pad + "','" + data.class_pad_new + "')";
+        var sidecodeDescription = data.plateNo +'-'+data.plateSource +'-'+data.plateCode+'-'+data.plateColor;
+        var sqlDb = "INSERT INTO `tbl_side_codes`(`side_code_no`,`side_type_code`,`description`, `description_eng`, `car_no`, `calar_pad`, `class_pad_new`,`car_sid`,`source`,`class_pad`,`created_by`) VALUES ('" + data.sideCodeID + "','" + data.voilationType + "','" + sidecodeDescription + "','" + sidecodeDescription + "','" + data.plateNo + "','" + data.plateColor + "','" + data.plateCode + "','" + data.plateSource + "','0','0','" + data.created_by + "')";
 
     }
-    //console.log("sqlDb", sqlDb);
+    // console.log("sqlDb", sqlDb);
     db.query(sqlDb, [], (error, result) => {
+
         if (error) {
             return callback(error);
         }
@@ -61,16 +64,48 @@ exports.tbl_violation_reference = async(voilationType,callback) =>{
                return callback(null, result);
            })
 }
-exports.sideCodeSearch = async(id,body,callback) =>{
+exports.sideCodeSearch = async(body,callback) =>{
  
+    console.log("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where description  LIKE '%"+body+"%' limit 20");
 
-//    console.log("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where side_type_code='"+id+"' and description  LIKE '%"+body+"%' limit 20");
-//    return;
-    db.query("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where side_type_code='"+id+"' and description  LIKE '%"+body+"%' limit 20", [], (error, result) => {
+    db.query("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where description  LIKE '%"+body+"%' limit 20", [], (error, result) => {
              if (error) {
                  return callback(error);
              }
              return callback(null, result);
          })
+}
+
+exports.tbl_side_code_search = async(body,callback) =>{
+    if(body.voilationType == 1){
+        var sql = "SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where  document_no  LIKE '%"+body.documentNo+"%'  and description LIKE '%"+body.sideCodeDescription+"%'";
+    }else if(body.voilationType == 2){
+        var sql = "SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where  license_no  LIKE '%"+body.license_no+"%'  and description LIKE '%"+body.sideCodeDescription+"%'";
+    }else{
+        var sql = "SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,document_type,document_no FROM `tbl_side_codes` where  car_no  LIKE '%"+body.plateNo+"%'  and car_sid LIKE '%"+body.plateSource+"%' and class_pad_new LIKE '%"+body.plateCode+"%' and calar_pad LIKE '%"+body.plateColor+"%'";
+    }
+    console.log(sql);
+         db.query(sql, [], (error, result) => {
+                 if (error) {
+                     return callback(error);
+                 }
+                 return callback(null, result);
+             })
+}
+
+exports.get3daysViolatino = async(body, callback) =>{
+    if(body.voilationType == 1){
+        var sql = "SELECT document_type,document_no FROM `tbl_voilations` where  document_type  LIKE '%"+body.documentType+"%'  and document_no LIKE '%"+body.documentNo+"%' and `created_on` <= DATE_ADD(CURDATE(), INTERVAL +3 DAY)";
+    }else if(body.voilationType == 2){
+        var sql = "SELECT license_no FROM `tbl_voilations` where  license_no  LIKE '%"+body.licenseNo+"%' and `created_on` <= DATE_ADD(CURDATE(), INTERVAL +3 DAY)";
+    }else{
+        var sql = "SELECT license_plate_no,plate_source,plate_color,plate_code FROM `tbl_voilations` where  license_plate_no  LIKE '%"+body.plateNo+"%'  and plate_source LIKE '%"+body.plateSource+"%'  and plate_color LIKE '%"+body.plateColor+"%'  and plate_code LIKE '%"+body.plateCode+"%' and `created_on` <= DATE_ADD(CURDATE(), INTERVAL +3 DAY)";
+    }
+    db.query(sql, [], (error, result) => {
+        if (error) {
+            return callback(error);
+        }
+        return callback(null, result);
+    })
 }
 

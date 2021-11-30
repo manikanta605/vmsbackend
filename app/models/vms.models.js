@@ -35,9 +35,10 @@ module.exports = {
                 return callback(null, result);
             })
         },
-        sideCode:(id,callback) =>{
-            
-            db.query("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` where side_type_code=? limit 20",[id], (error, result)=>{
+        sideCode:(callback) =>{
+            //console.log("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` limit 20");
+         
+            db.query("SELECT side_code_id,side_code_no,description,description_eng,side_code_id,side_type_code,side_code_no,car_no,car_sid,class_pad_new,class_pad,calar_pad,license_no,document_type,document_no FROM `tbl_side_codes` limit 20",[], (error, result)=>{
                 if(error){
                     return callback(error);
                 }

@@ -14,7 +14,7 @@ module.exports = app => {
    app.get('/voliationTitleList/:id',ensureToken, vmsController.voliationTitleList);
 
    //Get Side Code
-   app.get('/sideCode/:id',ensureToken, vmsController.sideCode);
+   app.get('/sideCode',ensureToken, vmsController.sideCode);
    //Get Side Code Wise Data
    app.get('/sideCodeWiseData/:id',ensureToken, vmsController.sideCodeWiseData);
 
@@ -57,7 +57,7 @@ module.exports = app => {
       app.get('/plateSourceId/:id', vmsController.plateSourceId);
 
       //Get voilations
-      app.post('/searchSideCode/:id', vmsController.searchSideCode);
+      app.post('/searchSideCode', vmsController.searchSideCode);
 }
 
 

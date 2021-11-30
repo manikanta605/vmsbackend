@@ -1,7 +1,7 @@
 const db = require('../config/db');
 
 exports.tbl_violations = async (id, callback) => {
-    console.log("SELECT violation_video,identity_doc,phone,side_code,document_type,side_type,violation_cat_id,violation_title_id,license_no, license_plate_no,plate_source,plate_code,plate_color, document_no, description_side_code, old_code,fine_category, fine_place,area, notes, fine_no, recipient_person,recipient_mobile,email,reserved_code, reserved_number, address, description,daily_fines,violation_docs, fine_amount,reference_number,status FROM `tbl_voilations` where reference_number='" + id + "' limit 1");
+    // console.log("SELECT violation_video,identity_doc,phone,side_code,document_type,side_type,violation_cat_id,violation_title_id,license_no, license_plate_no,plate_source,plate_code,plate_color, document_no, description_side_code, old_code,fine_category, fine_place,area, notes, fine_no, recipient_person,recipient_mobile,email,reserved_code, reserved_number, address, description,daily_fines,violation_docs, fine_amount,reference_number,status FROM `tbl_voilations` where reference_number='" + id + "' limit 1");
 
     
     db.query("SELECT violation_video,identity_doc,phone,side_code,document_type,side_type,violation_cat_id,violation_title_id,license_no, license_plate_no,plate_source,plate_code,plate_color, document_no, description_side_code, old_code,fine_category, fine_place,area, notes, fine_no, recipient_person,recipient_mobile,email,reserved_code, reserved_number, address, description,daily_fines,violation_docs, fine_amount,reference_number,status FROM `tbl_voilations` where reference_number='" + id + "' limit 1", [], (error, result) => {

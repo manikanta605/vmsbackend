@@ -98,7 +98,7 @@ module.exports = {
             if (err) {
                 res.sendStatus(403);
             } else {
-                vmsModels.sideCode(req.params.id,(err, result) => {
+                vmsModels.sideCode((err, result) => {
                     if (err) {
                         return res.status(500).send({
                             statusCode: 500,
@@ -353,8 +353,7 @@ module.exports = {
 
     searchSideCode: (req, res) => {
        var body = req.body;
-      console.log("req.body",body);
-        vmsModelsAdd.sideCodeSearch(req.params.id,body.search,(err, result) => {
+        vmsModelsAdd.sideCodeSearch(body.search,(err, result) => {
                     if (err) {
                         return res.status(500).send({
                             statusCode: 500,
